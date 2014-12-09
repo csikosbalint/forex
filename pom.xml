@@ -4,16 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <properties>
+        <forex.version>2.0.1-SNAPSHOT</forex.version>
+        <karaf.deploy>${env.HOME}/Tools/apache-karaf-3.0.2/deploy</karaf.deploy>
+    </properties>
+
     <groupId>hu.fnf.devel.forex</groupId>
     <artifactId>forex</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <repositories>
-        <repository>
-            <id>dc_public</id>
-            <name>Dukascopy public repository</name>
-            <url>http://www.dukascopy.com/client/jforexlib/publicrepo/</url>
-        </repository>
-    </repositories>
 
     <packaging>pom</packaging>
 
@@ -21,6 +19,14 @@
         <module>platform</module>
         <module>kar-assembler</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>dc_public</id>
+            <name>Dukascopy public repository</name>
+            <url>http://www.dukascopy.com/client/jforexlib/publicrepo/</url>
+        </repository>
+    </repositories>
 
     <dependencyManagement>
         <dependencies>
@@ -55,6 +61,34 @@
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>2.4.0</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <outputDirectory>META-INF</outputDirectory>
+                        <instructions>
+                            <Bundle-SymbolicName>${pom.groupId}.${pom.artifactId}</Bundle-SymbolicName>
+                            <Bundle-Name>${pom.artifactId}</Bundle-Name>
+                            <Bundle-Version>${forex.version}</Bundle-Version>
+                        </instructions>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.karaf.tooling</groupId>
+                    <artifactId>karaf-maven-plugin</artifactId>
+                    <version>3.0.2</version>
+                    <extensions>true</extensions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-antrun-plugin</artifactId>
+                    <version>1.7</version>
+                    <executions>
+                        <execution>
+                            <phase>install</phase>
+                            <goals>
+                                <goal>run</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
