@@ -19,6 +19,7 @@
 
     <modules>
         <module>platform</module>
+        <module>kar-assembler</module>
     </modules>
 
     <dependencyManagement>
@@ -26,9 +27,6 @@
             <dependency>
                 <groupId>com.dukascopy.dds2</groupId>
                 <artifactId>DDS2-jClient-JForex</artifactId>
-                <!-- find the latest available version here:
-                        http://www.dukascopy.com/client/jforexlib/publicrepo/com/dukascopy/dds2/DDS2-jClient-JForex/
-                -->
                 <version>2.42.2</version>
                 <exclusions>
                     <exclusion>
