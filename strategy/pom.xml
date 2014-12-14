@@ -2,15 +2,14 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
     <parent>
-        <groupId>hu.fnf.devel.forex</groupId>
         <artifactId>root-parent</artifactId>
+        <groupId>hu.fnf.devel.forex</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>platform</artifactId>
+    <artifactId>strategy</artifactId>
     <version>${forex.version}</version>
 
     <packaging>bundle</packaging>
@@ -34,6 +33,7 @@
         </dependency>
     </dependencies>
 
+
     <build>
         <plugins>
             <plugin>
@@ -42,23 +42,10 @@
                 <version>2.4.0</version>
                 <configuration>
                     <instructions>
-                        <!--<Bundle-Activator>hu.fnf.devel.forex.platform.Platform</Bundle-Activator>-->
-                        <Embed-Dependency>
-                            *;scope=compile|runtime;inline=true
-                        </Embed-Dependency>
-                        <Embed-Transitive>true</Embed-Transitive>
-                        <Include-Resource>
-                            {maven-resources}
-                        </Include-Resource>
-                        <Export-Package>
-                            !org.osgi.*,
-                            !org.osgi.framework.*,
-                            *
-                        </Export-Package>
+                        <Bundle-Activator>hu.fnf.devel.forex.strategy.Platform</Bundle-Activator>
                         <Import-Package>
-                            org.osgi.*,
-                            org.osgi.framework.*,
-                            !*
+                            com.dukascopy.api.system.*,
+                            *
                         </Import-Package>
                     </instructions>
                 </configuration>
