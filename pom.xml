@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>hu.fnf.devel.forex</groupId>
+    <artifactId>root-parent</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
     <properties>
         <forex.version>2.0.1-SNAPSHOT</forex.version>
         <karaf.deploy>${env.HOME}/Tools/apache-karaf-3.0.2/deploy</karaf.deploy>
     </properties>
-
-    <groupId>hu.fnf.devel.forex</groupId>
-    <artifactId>forex</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
 
@@ -20,36 +20,41 @@
         <module>kar-assembler</module>
     </modules>
 
-    <repositories>
-        <repository>
-            <id>dc_public</id>
-            <name>Dukascopy public repository</name>
-            <url>http://www.dukascopy.com/client/jforexlib/publicrepo/</url>
-        </repository>
-    </repositories>
+    <!--<repositories>-->
+    <!--<repository>-->
+    <!--<id>dc_public</id>-->
+    <!--<name>Dukascopy public repository</name>-->
+    <!--<url>http://www.dukascopy.com/client/jforexlib/publicrepo/</url>-->
+    <!--</repository>-->
+    <!--</repositories>-->
 
     <dependencyManagement>
         <dependencies>
+            <!--<dependency>-->
+            <!--<groupId>com.dukascopy.dds2</groupId>-->
+            <!--<artifactId>DDS2-jClient-JForex</artifactId>-->
+            <!--<version>2.42.2</version>-->
+            <!--<exclusions>-->
+            <!--<exclusion>-->
+            <!--<groupId>org.slf4j</groupId>-->
+            <!--<artifactId>slf4j-jdk14</artifactId>-->
+            <!--</exclusion>-->
+            <!--</exclusions>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>log4j</groupId>-->
+            <!--<artifactId>log4j</artifactId>-->
+            <!--<version>1.2.17</version>-->
+            <!--</dependency>-->
+            <!--<dependency>-->
+            <!--<groupId>com.dukascopy.api</groupId>-->
+            <!--<artifactId>JForex-API</artifactId>-->
+            <!--<version>2.12.1</version>-->
+            <!--</dependency>-->
             <dependency>
-                <groupId>com.dukascopy.dds2</groupId>
-                <artifactId>DDS2-jClient-JForex</artifactId>
-                <version>2.42.2</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-jdk14</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>1.2.17</version>
-            </dependency>
-            <dependency>
-                <groupId>com.dukascopy.api</groupId>
-                <artifactId>JForex-API</artifactId>
-                <version>2.12.1</version>
+                <groupId>org.osgi</groupId>
+                <artifactId>org.osgi.core</artifactId>
+                <version>4.2.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -60,14 +65,15 @@
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>2.4.0</version>
+                    <version>2.3.7</version>
                     <extensions>true</extensions>
                     <configuration>
-                        <outputDirectory>META-INF</outputDirectory>
+                        <obrRepository>NONE</obrRepository>
                         <instructions>
-                            <Bundle-SymbolicName>${pom.groupId}.${pom.artifactId}</Bundle-SymbolicName>
-                            <Bundle-Name>${pom.artifactId}</Bundle-Name>
-                            <Bundle-Version>${forex.version}</Bundle-Version>
+                            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
+                            <Bundle-Name>${project.artifactId}</Bundle-Name>
+                            <Bundle-Version>${project.version}</Bundle-Version>
+                            <Bundle-Classpath>.</Bundle-Classpath>
                         </instructions>
                     </configuration>
                 </plugin>

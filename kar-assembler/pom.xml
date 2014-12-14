@@ -5,13 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>forex</artifactId>
         <groupId>hu.fnf.devel.forex</groupId>
+        <artifactId>root-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>kar-assembler</artifactId>
-    <groupId>hu.fnf.devel.forex</groupId>
     <version>${forex.version}</version>
 
     <packaging>kar</packaging>
