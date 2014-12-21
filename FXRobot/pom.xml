@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ The /home/johnnym/Code/forex/platform/pom.xml
+  ~ The /home/johnnym/Code/forex/FXRobot/pom.xml
   ~ is part of the forex project.
   ~ Copyright (C) 2014 johnnym
   ~
@@ -30,14 +30,24 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>platform</artifactId>
-    <version>1.0.0</version>
+    <artifactId>FXRobot</artifactId>
+    <version>${forex.version}</version>
 
-    <packaging>pom</packaging>
+    <packaging>kar</packaging>
 
-    <modules>
-        <module>api/platform-API</module>
-        <module>impl/platform-Impl</module>
-    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.karaf.tooling</groupId>
+                <artifactId>karaf-maven-plugin</artifactId>
+                <configuration>
+                    <featuresFile>
+                        ${project.basedir}/features.xml
+                    </featuresFile>
+                    <outputDirectory>${karaf.deploy}</outputDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

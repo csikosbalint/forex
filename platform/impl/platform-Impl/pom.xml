@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ The /home/johnnym/Code/forex/strategy/pom.xml
+  ~ The /home/johnnym/Code/forex/platform/impl/platform-Impl/pom.xml 
   ~ is part of the forex project.
   ~ Copyright (C) 2014 johnnym
   ~
   ~     This program is free software; you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by the
-  ~ Free Software Foundation; either version 2 of the License, or any later
+  ~ it under the terms of the GNU General Public License as published by the 
+  ~ Free Software Foundation; either version 2 of the License, or any later 
   ~ version.
   ~
-  ~     This program is distributed in the hope that it will be useful, but
+  ~     This program is distributed in the hope that it will be useful, but 
   ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
-  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
   ~ for more details.
   ~
-  ~     You should have received a copy of the GNU General Public License
+  ~     You should have received a copy of the GNU General Public License 
   ~ along with this program; if not, write to the Free Software Foundation,
   ~ Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
   -->
@@ -22,15 +22,16 @@
 <project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <groupId>hu.fnf.devel.forex</groupId>
-        <artifactId>forex</artifactId>
-        <version>1.0.0</version>
-    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>strategy</artifactId>
-    <version>${forex.version}</version>
+    <parent>
+        <groupId>hu.fnf.devel.forex</groupId>
+        <artifactId>platform</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>platform-Impl</artifactId>
+    <version>2.0.1</version>
 
     <packaging>bundle</packaging>
 
@@ -38,18 +39,22 @@
         <dependency>
             <groupId>com.dukascopy.api</groupId>
             <artifactId>JForex-API</artifactId>
+            <version>2.12.1</version>
         </dependency>
         <dependency>
             <groupId>com.dukascopy.dds2</groupId>
             <artifactId>DDS2-jClient-JForex</artifactId>
+            <version>2.42.2</version>
         </dependency>
         <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
+            <groupId>hu.fnf.devel.forex</groupId>
+            <artifactId>platform-API</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.log4j</groupId>
-            <artifactId>com.springsource.org.apache.log4j</artifactId>
+            <groupId>hu.fnf.devel.forex</groupId>
+            <artifactId>manager-API</artifactId>
+            <version>2.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.osgi</groupId>
@@ -58,23 +63,11 @@
         </dependency>
     </dependencies>
 
-
     <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <version>2.4.0</version>
-                <configuration>
-                    <instructions>
-                        <Bundle-Activator>hu.fnf.devel.forex.strategy.hu.fnf.devel.forex.platform.impl.jClient
-                        </Bundle-Activator>
-                        <Import-Package>
-                            com.dukascopy.api.system.*,
-                            *
-                        </Import-Package>
-                    </instructions>
-                </configuration>
             </plugin>
         </plugins>
     </build>

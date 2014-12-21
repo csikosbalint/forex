@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ The /home/johnnym/Code/forex/platform/pom.xml
+  ~ The /home/johnnym/Code/forex/manager/api/manager-API/pom.xml
   ~ is part of the forex project.
   ~ Copyright (C) 2014 johnnym
   ~
@@ -25,19 +25,24 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
+        <artifactId>manager</artifactId>
         <groupId>hu.fnf.devel.forex</groupId>
-        <artifactId>forex</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>platform</artifactId>
-    <version>1.0.0</version>
+    <artifactId>manager-API</artifactId>
+    <version>2.0.1</version>
 
-    <packaging>pom</packaging>
+    <packaging>bundle</packaging>
 
-    <modules>
-        <module>api/platform-API</module>
-        <module>impl/platform-Impl</module>
-    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.felix</groupId>
+                <artifactId>maven-bundle-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>

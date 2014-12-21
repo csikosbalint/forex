@@ -1,0 +1,38 @@
+<!--
+  ~ The /home/johnnym/Code/forex/FXRobot/features.xml
+  ~ is part of the forex project.
+  ~ Copyright (C) 2014 johnnym
+  ~
+  ~     This program is free software; you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by the
+  ~ Free Software Foundation; either version 2 of the License, or any later
+  ~ version.
+  ~
+  ~     This program is distributed in the hope that it will be useful, but
+  ~ WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+  ~ or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+  ~ for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~ along with this program; if not, write to the Free Software Foundation,
+  ~ Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+  -->
+
+<features name="hu.fnf.devel.forex-2.0.1" xmlns="http://karaf.apache.org/xmlns/features/v1.0.0">
+    <feature name="jForex" version="2.0.1" description="Automated FX robot (3rd party libraries)">
+        <bundle>mvn:com.fasterxml.jackson.core/com.springsource.com.fasterxml.jackson.core.jackson-annotations/2.0.2
+        </bundle>
+        <bundle>mvn:com.fasterxml.jackson.core/com.springsource.com.fasterxml.jackson.core.jackson-core/2.0.2</bundle>
+        <bundle>mvn:com.fasterxml.jackson.core/com.springsource.com.fasterxml.jackson.core.jackson-databind/2.0.2
+        </bundle>
+        <bundle>mvn:com.google.collect/com.springsource.com.google.common.collect/0.8.0.20080820</bundle>
+        <bundle>mvn:hu.fnf.devel.forex/jForex-API/2.12.1</bundle>
+        <bundle>mvn:hu.fnf.devel.forex/jForex-DDS2/2.42.2</bundle>
+    </feature>
+    <feature name="jClient" version="2.0.1" description="Automated FX robot (ECN client)">
+        <bundle>mvn:hu.fnf.devel.forex/manager-API/2.0.1</bundle>
+        <bundle>mvn:hu.fnf.devel.forex/manager-Impl/2.0.1</bundle>
+        <bundle>mvn:hu.fnf.devel.forex/platform-API/2.0.1</bundle>
+        <bundle>mvn:hu.fnf.devel.forex/platform-Impl/2.0.1</bundle>
+    </feature>
+</features>
