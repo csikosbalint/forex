@@ -23,8 +23,16 @@
                interface="hu.fnf.devel.forex.manager.api.Manager">
     </reference>
 
+    <!--<reference id="testMQ" interface="javax.jms.ConnectionFactory"></reference>-->
+    <!--<bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">-->
+    <!--<property name="brokerURL" value="tcp://localhost:61616" />-->
+    <!--<property name="userName" value="admin" />-->
+    <!--<property name="password" value="admin" />-->
+    <!--</bean>-->
+
     <bean class="hu.fnf.devel.forex.platform.impl.jClient"
           init-method="initBundle">
         <property name="manager" ref="managerService"/>
+        <!--<property name="testMQ" ref="activemqConnectionFactory"/>-->
     </bean>
 </blueprint>

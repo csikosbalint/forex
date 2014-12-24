@@ -39,7 +39,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <!--<module>jForex</module>-->
+        <module>jForex</module>
         <module>manager</module>
         <module>platform</module>
         <!--<module>strategy</module>-->
@@ -66,6 +66,16 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-core</artifactId>
+                <version>5.7.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-broker</artifactId>
+                <version>5.10.0</version>
+            </dependency>
             <dependency>
                 <groupId>com.dukascopy.dds2</groupId>
                 <artifactId>DDS2-jClient-JForex</artifactId>

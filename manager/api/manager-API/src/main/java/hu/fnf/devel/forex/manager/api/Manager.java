@@ -20,10 +20,12 @@
 
 package hu.fnf.devel.forex.manager.api;
 
+import java.util.Observer;
+
 /**
  * Created by johnnym on 21/12/14.
  */
-public interface Manager {
+public interface Manager extends Observer {
     public String sayHello();
 
     public void initMethod();
