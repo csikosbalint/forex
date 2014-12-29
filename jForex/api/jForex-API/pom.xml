@@ -31,7 +31,7 @@
     </parent>
 
     <artifactId>jForex-API</artifactId>
-    <version>2.12.1</version>
+    <version>${jForex-API.version}</version>
 
     <packaging>bundle</packaging>
 
@@ -39,7 +39,6 @@
         <dependency>
             <groupId>com.dukascopy.api</groupId>
             <artifactId>JForex-API</artifactId>
-            <version>2.12.1</version>
         </dependency>
     </dependencies>
 
@@ -52,9 +51,9 @@
                     <instructions>
                         <Embed-Dependency>*;scope=compile|runtime;type=!pom;inline=true</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
-                        <Include-Resource>{maven-resources}</Include-Resource>
+                        <!--<Include-Resource>{maven-resources}</Include-Resource>-->
                         <Import-Package>!com.ibm.uvm.tools</Import-Package>
-                        <Export-Package>*</Export-Package>
+                        <Export-Package>com.dukascopy.*</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>

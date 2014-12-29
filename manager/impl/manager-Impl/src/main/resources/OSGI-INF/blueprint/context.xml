@@ -19,45 +19,35 @@
   -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 
-    <service ref="managerService"
-             interface="hu.fnf.devel.forex.manager.api.Manager">
+    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="tcp://localhost:61616"/>
+        <property name="userName" value="karaf"/>
+        <property name="password" value="karaf"/>
+    </bean>
+
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="maxConnections" value="8"/>
+        <property name="connectionFactory" ref="activemqConnectionFactory"/>
+    </bean>
+
+    <bean id="resourceManager" class="org.apache.activemq.pool.ActiveMQResourceManager" init-method="recoverResource">
+        <property name="transactionManager" ref="transactionManager"/>
+        <property name="connectionFactory" ref="activemqConnectionFactory"/>
+        <property name="resourceName" value="activemq.localhost"/>
+    </bean>
+
+    <reference id="transactionManager" interface="javax.transaction.TransactionManager"/>
+
+    <service ref="pooledConnectionFactory" interface="javax.jms.ConnectionFactory">
+        <service-properties>
+            <entry key="name" value="test"/>
+            <entry key="osgi.jndi.service.name" value="jms/test"/>
+        </service-properties>
     </service>
-
-    <!--<bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">-->
-    <!--<property name="brokerURL" value="tcp://localhost:61616" />-->
-    <!--&lt;!&ndash;<property name="userName" value="admin" />&ndash;&gt;-->
-    <!--&lt;!&ndash;<property name="password" value="admin" />&ndash;&gt;-->
-    <!--</bean>-->
-
-    <!--<bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">-->
-    <!--<property name="maxConnections" value="8" />-->
-    <!--<property name="connectionFactory" ref="activemqConnectionFactory" />-->
-    <!--</bean>-->
-
-    <!--<bean id="resourceManager" class="org.apache.activemq.pool.ActiveMQResourceManager" init-method="recoverResource">-->
-    <!--<property name="transactionManager" ref="transactionManager" />-->
-    <!--<property name="connectionFactory" ref="activemqConnectionFactory" />-->
-    <!--<property name="resourceName" value="activemq.localhost" />-->
-    <!--</bean>-->
-
-    <!--<reference id="transactionManager" interface="javax.transaction.TransactionManager" />-->
-
-    <!--<service ref="pooledConnectionFactory" interface="javax.jms.ConnectionFactory">-->
-    <!--<service-properties>-->
-    <!--<entry key="name" value="test" />-->
-    <!--<entry key="osgi.jndi.service.name" value="jms/test" />-->
-    <!--</service-properties>-->
-    <!--</service>-->
-
-    <!--<bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">-->
-    <!--<property name="brokerURL" value="tcp://localhost:61616" />-->
-    <!--<property name="userName" value="admin" />-->
-    <!--<property name="password" value="admin" />-->
-    <!--</bean>-->
 
     <bean id="managerService"
           class="hu.fnf.devel.forex.manager.impl.WebManager"
           init-method="initMethod">
-        <!--<property name="testMQ" ref="activemqConnectionFactory" />-->
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
     </bean>
 </blueprint>

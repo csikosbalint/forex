@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module org.jetbrains.idea.maven.project.MavenProjectsManager.isMavenModule="true" type="JAVA_MODULE" version="4">
-  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+  <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
@@ -12,9 +12,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="manager-API" />
-    <orderEntry type="library" name="Maven: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-core:5.7.0" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.6.6" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.geronimo.specs:geronimo-jms_1.1_spec:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: org.apache.activemq:kahadb:5.7.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.activemq.protobuf:activemq-protobuf:1.1" level="project" />
     <orderEntry type="library" name="Maven: org.fusesource.mqtt-client:mqtt-client:1.3" level="project" />
@@ -35,5 +35,6 @@
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-broker:5.10.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-client:5.10.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.activemq:activemq-openwire-legacy:5.10.0" level="project" />
+    <orderEntry type="library" name="Maven: log4j:log4j:1.2.16" level="project" />
   </component>
 </module>

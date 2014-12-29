@@ -29,10 +29,10 @@
     <version>1.0.0</version>
 
     <properties>
-        <forex.version>2.0.1</forex.version>
-        <!--<jForex-API.version>2.11</jForex-API.version>-->
-        <!--<jForex-DDS2.version>2.42.2</jForex-DDS2.version>-->
-        <karaf.deploy>${env.HOME}/Tools/apache-karaf-3.0.2/deploy</karaf.deploy>
+        <jForex-API.version>2.12.1</jForex-API.version>
+        <jForex-DDS2.version>2.42.2</jForex-DDS2.version>
+        <karaf.version>3.0.2</karaf.version>
+        <karaf.deploy>${env.HOME}/Tools/apache-karaf-${karaf.version}/deploy</karaf.deploy>
         <description>Automated FX robot</description>
     </properties>
 
@@ -42,7 +42,7 @@
         <module>jForex</module>
         <module>manager</module>
         <module>platform</module>
-        <!--<module>strategy</module>-->
+        <module>strategy</module>
         <module>FXRobot</module>
     </modules>
 
@@ -79,7 +79,7 @@
             <dependency>
                 <groupId>com.dukascopy.dds2</groupId>
                 <artifactId>DDS2-jClient-JForex</artifactId>
-                <version>2.42.2</version>
+                <version>${jForex-DDS2.version}</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.slf4j</groupId>
@@ -90,12 +90,7 @@
             <dependency>
                 <groupId>com.dukascopy.api</groupId>
                 <artifactId>JForex-API</artifactId>
-                <version>2.12.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>18.0</version>
+                <version>${jForex-API.version}</version>
             </dependency>
             <dependency>
                 <groupId>log4j</groupId>
@@ -106,11 +101,6 @@
                 <groupId>org.osgi</groupId>
                 <artifactId>org.osgi.core</artifactId>
                 <version>4.2.0</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>2.3.0</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -130,7 +120,7 @@
                     <version>2.4.0</version>
                     <extensions>true</extensions>
                     <configuration>
-                        <!--<manifestLocation>META-INF</manifestLocation>-->
+                        <manifestLocation>target</manifestLocation>
                         <instructions>
                             <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
                             <Bundle-Name>${project.artifactId}</Bundle-Name>
@@ -143,21 +133,21 @@
                     <artifactId>karaf-maven-plugin</artifactId>
                     <version>3.0.2</version>
                     <extensions>true</extensions>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                        </execution>
+                    </executions>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-resources-plugin</artifactId>
-                    <version>2.7</version>
-                </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.0.2</version>
-                    <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
-                    </configuration>
-                </plugin>
+                <!--<plugin>-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-compiler-plugin</artifactId>-->
+                <!--<version>2.0.2</version>-->
+                <!--<configuration>-->
+                <!--<source>1.7</source>-->
+                <!--<target>1.7</target>-->
+                <!--</configuration>-->
+                <!--</plugin>-->
             </plugins>
         </pluginManagement>
     </build>

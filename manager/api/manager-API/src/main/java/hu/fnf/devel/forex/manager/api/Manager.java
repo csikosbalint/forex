@@ -20,13 +20,15 @@
 
 package hu.fnf.devel.forex.manager.api;
 
-import java.util.Observer;
-
 /**
  * Created by johnnym on 21/12/14.
+ *
+ * Manager interface for control.
  */
-public interface Manager extends Observer {
-    public String sayHello();
 
+public interface Manager {
+    /**
+     * The init method of the control manager bundle.
+     */
     public void initMethod();
 }

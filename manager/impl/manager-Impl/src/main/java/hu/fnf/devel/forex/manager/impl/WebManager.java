@@ -21,83 +21,95 @@
 package hu.fnf.devel.forex.manager.impl;
 
 import hu.fnf.devel.forex.manager.api.Manager;
-import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.log4j.Logger;
 
 import javax.jms.*;
-import java.util.Observable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by johnnym on 21/12/14.
+ *
+ * Implementation of Manager. This class will make available some control.
  */
-public class WebManager implements Manager, ExceptionListener {
+public class WebManager implements Manager {
 
-    private ConnectionFactory testMQ;
+    private ConnectionFactory connectionFactory;
 
-    public void setTestMQ(ConnectionFactory testMQ) {
-        this.testMQ = testMQ;
-    }
-
-    @Override
-    public String sayHello() {
-        return "Hello";
+    public void setConnectionFactory(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
     @Override
     public void initMethod() {
-
         System.out.println("init manager");
+
+        MessageListener messageListener = null;
         try {
-            // Create a Connection
-//            Connection connection = testMQ.createConnection();
-            ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
-            Connection connection = connectionFactory.createConnection("karaf", "karaf");
-            connection.start();
+            messageListener = new MessageListener(connectionFactory.createConnection());
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
+
+        Thread thread = new Thread(messageListener);
+        thread.start();
+    }
+
+}
+
+class MessageListener implements Runnable, ExceptionListener {
+    private Map<String, MessageConsumer> consumers;
+    private Logger logger = Logger.getLogger(MessageListener.class);
 
 
-            connection.setExceptionListener(this);
-
-            // Create a Session
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
-            // Create the destination (Topic or Queue)
-            Destination destination = session.createQueue("TEST.QUEUE");
-
-            // Create a MessageConsumer from the Session to the Topic or Queue
-            MessageConsumer consumer = session.createConsumer(destination);
-
-            // Wait for a message
-            Message message = consumer.receive(1000);
-
-            if (message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
-                String text = textMessage.getText();
-                System.out.println("Received: " + text);
-            } else {
-                System.out.println("Received: " + message);
+    public MessageListener(Connection connection) {
+        try {
+            System.out.println("create session");
+            // Create the information (Topic or Queue)
+            consumers = new HashMap<String, MessageConsumer>();
+            Session session;
+            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            try {
+                consumers.put("information", session.createConsumer(session.createQueue("information")));
+                consumers.put("warnings", session.createConsumer(session.createQueue("warnings")));
+                consumers.put("errors", session.createConsumer(session.createQueue("errors")));
+            } catch (JMSException e) {
+                e.printStackTrace();
             }
-
-            consumer.close();
-            session.close();
-            connection.close();
-            Thread.sleep(5000);
+            connection.start();
+            connection.setExceptionListener(this);
         } catch (Exception e) {
-            System.out.println("Caught: " + e);
             e.printStackTrace();
         }
     }
 
     @Override
-    public void update(Observable o, Object arg) {
-        if (arg instanceof String) {
-            String resp = (String) arg;
-            System.out.println("\nReceived Response: " + resp);
-        }
-
+    public void onException(JMSException e) {
+        System.out.println("JMS Exception occured.  Shutting down client.");
     }
 
+    @Override
+    public void run() {
+        while (true) {
+            try {
+                for (Object o : consumers.entrySet()) {
+                    Map.Entry queueNameConsumer = (Map.Entry) o;
+                    MessageConsumer queueConsumer = (MessageConsumer) queueNameConsumer.getValue();
+                    String queueName = (String) queueNameConsumer.getKey();
+                    Message message = queueConsumer.receive(1000);
+                    if (message instanceof TextMessage) {
+                        TextMessage textMessage = (TextMessage) message;
+                        processMessage(queueName, textMessage.getText());
+                    }
+                }
+            } catch (Exception e) {
+                // TODO: handle exceptions
+            }
+        }
+    }
 
-    public synchronized void onException(JMSException ex) {
-        System.out.println("JMS Exception occured.  Shutting down client.");
+    private void processMessage(String queueName, String text) {
+        logger.info(queueName + ": " + text);
     }
 }
 

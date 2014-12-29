@@ -31,7 +31,7 @@
     </parent>
 
     <artifactId>FXRobot</artifactId>
-    <version>${forex.version}</version>
+    <version>2.0.1</version>
 
     <packaging>kar</packaging>
 

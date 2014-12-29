@@ -34,6 +34,6 @@ public interface Platform {
      * @throws InstantiationException
      * @throws ClassNotFoundException
      */
-    public void initBundle() throws IllegalAccessException, InstantiationException, ClassNotFoundException;
+    public void initMethod() throws IllegalAccessException, InstantiationException, ClassNotFoundException;
 
 }

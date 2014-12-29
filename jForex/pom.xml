@@ -37,7 +37,7 @@
 
     <modules>
         <module>api/jForex-API</module>
-        <!--<module>impl/jForex-DDS2</module>-->
+        <module>impl/jForex-DDS2</module>
     </modules>
 
 

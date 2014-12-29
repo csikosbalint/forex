@@ -24,42 +24,27 @@ package hu.fnf.devel.forex.platform.impl;
 import com.dukascopy.api.impl.connect.DCClientImpl;
 import com.dukascopy.api.system.IClient;
 import com.dukascopy.api.system.ISystemListener;
-import hu.fnf.devel.forex.manager.api.Manager;
 import hu.fnf.devel.forex.platform.api.Platform;
-import org.apache.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import javax.jms.ConnectionFactory;
-import java.util.Observable;
+import javax.jms.*;
 
 /**
  * Created by johnnym on 08/12/14.
  * This service is intended to provide the forex platform service.
  */
 
-public class jClient extends Observable implements Platform, BundleActivator {
+public class jClient implements Platform, BundleActivator {
 
-    private ConnectionFactory testMQ;
+    private ConnectionFactory connectionFactory;
 
-    public void setTestMQ(ConnectionFactory testMQ) {
-        this.testMQ = testMQ;
+    public void setConnectionFactory(ConnectionFactory connectionFactory) {
+        this.connectionFactory = connectionFactory;
     }
 
-    public void setManager(Manager manager) {
-        addObserver(manager);
-    }
-
-    /**
-     * This method is intended to be called if the init-method of the bean is defined.
-     *
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws ClassNotFoundException
-     */
-    public void initBundle() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
-        System.out.println("init");
-        Logger logger = Logger.getLogger(jClient.class);
+    public void initMethod() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
+        System.out.println("init platform");
         IClient iClient = new DCClientImpl();
         iClient.setSystemListener(new ISystemListener() {
             @Override
@@ -82,39 +67,38 @@ public class jClient extends Observable implements Platform, BundleActivator {
 
             }
         });
-//        try {
-//            // Create a Connection
-//            Connection connection = testMQ.createConnection("admin","admin");
-//            connection.start();
-//
-//            // Create a Session
-//            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-//
-//            // Create the destination (Topic or Queue)
-//            Destination destination = session.createQueue("TEST.FOO");
-//
-//            // Create a MessageProducer from the Session to the Topic or Queue
-//            MessageProducer producer = session.createProducer(destination);
-//            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-//
-//            // Create a messages
-//            String text = "Hello world! From: " + Thread.currentThread().getName() + " : " + this.hashCode();
-//            TextMessage message = session.createTextMessage(text);
-//
-//            // Tell the producer to send the message
-//            System.out.println("Sent message: "+ message.hashCode() + " : " + Thread.currentThread().getName());
-//            producer.send(message);
-//
-//            // Clean up
-//            session.close();
-//            connection.close();
-//        }
-//        catch (Exception e) {
-//            System.out.println("Caught: " + e);
-//            e.printStackTrace();
-//        }
-        setChanged();
-        notifyObservers("platform bundle init");
+        sendMessage("information", "client started");
+    }
+
+    private void sendMessage(String queue, String msg) {
+        try {
+            // Create a Connection
+            Connection connection = connectionFactory.createConnection();
+            connection.start();
+
+            // Create a Session
+            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+
+            // Create the destination (Topic or Queue)
+            Destination destination = session.createQueue(queue);
+
+            // Create a MessageProducer from the Session to the Topic or Queue
+            MessageProducer producer = session.createProducer(destination);
+            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+
+            // Create a messages
+            TextMessage message = session.createTextMessage(msg);
+
+            // Tell the producer to send the message
+            producer.send(message);
+
+            // Clean up
+            session.close();
+            connection.close();
+        } catch (Exception e) {
+            System.out.println("Caught: " + e);
+            e.printStackTrace();
+        }
     }
 
     @Override

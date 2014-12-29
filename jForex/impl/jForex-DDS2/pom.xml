@@ -31,7 +31,7 @@
     </parent>
 
     <artifactId>jForex-DDS2</artifactId>
-    <version>2.42.2</version>
+    <version>${jForex-DDS2.version}</version>
 
     <packaging>bundle</packaging>
 
@@ -39,13 +39,6 @@
         <dependency>
             <groupId>com.dukascopy.dds2</groupId>
             <artifactId>DDS2-jClient-JForex</artifactId>
-            <version>2.42.2</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-jdk14</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
     </dependencies>
 
@@ -58,10 +51,8 @@
                     <instructions>
                         <Embed-Dependency>*;scope=compile|runtime;type=!pom;inline=true</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
-                        <!--<Include-Resource>{maven-resources}</Include-Resource>-->
-                        <Private-Package></Private-Package>
                         <Import-Package>!com.ibm.uvm.tools</Import-Package>
-                        <Export-Package>*</Export-Package>
+                        <Export-Package>com.dukascopy.*</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>

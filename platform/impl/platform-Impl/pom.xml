@@ -39,12 +39,10 @@
         <dependency>
             <groupId>com.dukascopy.api</groupId>
             <artifactId>JForex-API</artifactId>
-            <version>2.12.1</version>
         </dependency>
         <dependency>
             <groupId>com.dukascopy.dds2</groupId>
             <artifactId>DDS2-jClient-JForex</artifactId>
-            <version>2.42.2</version>
         </dependency>
         <dependency>
             <groupId>hu.fnf.devel.forex</groupId>
@@ -52,24 +50,16 @@
             <version>2.0.1</version>
         </dependency>
         <dependency>
-            <groupId>hu.fnf.devel.forex</groupId>
-            <artifactId>manager-API</artifactId>
-            <version>2.0.1</version>
-        </dependency>
-        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.core</artifactId>
-            <version>5.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-core</artifactId>
-            <version>5.7.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
-            <version>5.10.0</version>
         </dependency>
     </dependencies>
 
