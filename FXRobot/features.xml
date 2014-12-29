@@ -36,5 +36,7 @@
         <bundle>mvn:hu.fnf.devel.forex/manager-Impl/2.0.1</bundle>
         <bundle>mvn:hu.fnf.devel.forex/platform-API/2.0.1</bundle>
         <bundle>mvn:hu.fnf.devel.forex/platform-Impl/2.0.1</bundle>
+        <bundle>mvn:hu.fnf.devel.forex/strategy-API/2.0.1</bundle>
+        <bundle>mvn:hu.fnf.devel.forex/MACDSample/2.0.1</bundle>
     </feature>
 </features>

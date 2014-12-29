@@ -25,6 +25,7 @@ import com.dukascopy.api.impl.connect.DCClientImpl;
 import com.dukascopy.api.system.IClient;
 import com.dukascopy.api.system.ISystemListener;
 import hu.fnf.devel.forex.platform.api.Platform;
+import hu.fnf.devel.forex.strategy.impl.MACDSample;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
@@ -68,6 +69,23 @@ public class jClient implements Platform, BundleActivator {
             }
         });
         sendMessage("information", "client started");
+        try {
+            iClient.connect("https://www.dukascopy.com/client/demo/jclient/jforex.jnlp", "DEMO2mPMgP",
+                    "mPMgP");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+// wait for it to connect
+        int i = 50; // wait max ten seconds
+        while (i > 0 && !iClient.isConnected()) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                return;
+            }
+            i--;
+        }
+        iClient.startStrategy(new MACDSample());
     }
 
     private void sendMessage(String queue, String msg) {

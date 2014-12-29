@@ -40,6 +40,11 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
+                <configuration>
+                    <instructions>
+                        <Export-Package>hu.fnf.devel.forex.manager.api</Export-Package>
+                    </instructions>
+                </configuration>
             </plugin>
         </plugins>
     </build>
