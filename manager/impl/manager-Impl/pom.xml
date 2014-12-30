@@ -28,6 +28,7 @@
         <artifactId>manager</artifactId>
         <groupId>hu.fnf.devel.forex</groupId>
         <version>1.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>manager-Impl</artifactId>

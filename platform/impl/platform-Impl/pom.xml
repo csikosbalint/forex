@@ -28,6 +28,7 @@
         <groupId>hu.fnf.devel.forex</groupId>
         <artifactId>platform</artifactId>
         <version>1.0.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
 
     <artifactId>platform-Impl</artifactId>
