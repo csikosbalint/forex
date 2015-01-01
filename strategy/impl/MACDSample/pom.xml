@@ -47,7 +47,8 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
-                        <Import-Package>hu.fnf.devel.forex.strategy.api</Import-Package>
+                        <Import-Package>com.dukascopy.charts.main,com.dukascopy.*,hu.fnf.devel.forex.strategy.api
+                        </Import-Package>
                         <Export-Package>hu.fnf.devel.forex.strategy.impl</Export-Package>
                     </instructions>
                 </configuration>

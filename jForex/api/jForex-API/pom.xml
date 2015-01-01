@@ -52,7 +52,7 @@
                         <Embed-Dependency>*;scope=compile|runtime;type=!pom;inline=true</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
                         <!--<Include-Resource>{maven-resources}</Include-Resource>-->
-                        <Import-Package>!com.ibm.uvm.tools</Import-Package>
+                        <Import-Package>com.dukascopy.*,!com.ibm.uvm.tools</Import-Package>
                         <Export-Package>com.dukascopy.*</Export-Package>
                     </instructions>
                 </configuration>

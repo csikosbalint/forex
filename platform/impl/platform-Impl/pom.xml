@@ -66,6 +66,7 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -73,11 +74,11 @@
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
-                <!--<configuration>-->
-                <!--<instructions>-->
-                <!--<Import-Package>*,com.dukascopy.api.feed</Import-Package>-->
-                <!--</instructions>-->
-                <!--</configuration>-->
+                <configuration>
+                    <instructions>
+                        <Import-Package>*,com.dukascopy.*</Import-Package>
+                    </instructions>
+                </configuration>
             </plugin>
         </plugins>
     </build>

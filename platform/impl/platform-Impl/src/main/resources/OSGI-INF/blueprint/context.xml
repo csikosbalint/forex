@@ -19,9 +19,9 @@
   -->
 <blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
 
-  <reference id="pooledConnectionFactory" interface="javax.jms.ConnectionFactory"/>
+  <!--<reference id="pooledConnectionFactory" interface="javax.jms.ConnectionFactory"/>-->
 
   <bean class="hu.fnf.devel.forex.platform.impl.jClient" init-method="initMethod">
-    <property name="connectionFactory" ref="pooledConnectionFactory"/>
+    <!--<property name="connectionFactory" ref="pooledConnectionFactory"/>-->
     </bean>
 </blueprint>

@@ -21,11 +21,9 @@
 package hu.fnf.devel.forex.manager.impl;
 
 import hu.fnf.devel.forex.manager.api.Manager;
-import org.apache.log4j.Logger;
 
-import javax.jms.*;
-import java.util.HashMap;
-import java.util.Map;
+import javax.jms.ConnectionFactory;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Created by johnnym on 21/12/14.
@@ -35,6 +33,8 @@ import java.util.Map;
 public class WebManager implements Manager {
 
     private ConnectionFactory connectionFactory;
+    private DocumentBuilderFactory documentBuilderFactory;
+
 
     public void setConnectionFactory(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
@@ -44,72 +44,78 @@ public class WebManager implements Manager {
     public void initMethod() {
         System.out.println("init manager");
 
-        MessageListener messageListener = null;
-        try {
-            messageListener = new MessageListener(connectionFactory.createConnection());
-        } catch (JMSException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            setConnectionFactory(new ActiveMQConnectionFactory(ActiveMQConnectionFactory.DEFAULT_BROKER_URL));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        Thread thread = new Thread(messageListener);
-        thread.start();
+//        MessageListener messageListener = null;
+//        try {
+//            messageListener = new MessageListener(connectionFactory.createConnection("karaf","karaf"));
+//        } catch (JMSException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Thread thread = new Thread(messageListener);
+//        thread.start();
     }
 
 }
 
-class MessageListener implements Runnable, ExceptionListener {
-    private Map<String, MessageConsumer> consumers;
-    private Logger logger = Logger.getLogger(MessageListener.class);
-
-
-    public MessageListener(Connection connection) {
-        try {
-            System.out.println("create session");
-            // Create the information (Topic or Queue)
-            consumers = new HashMap<String, MessageConsumer>();
-            Session session;
-            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            try {
-                consumers.put("information", session.createConsumer(session.createQueue("information")));
-                consumers.put("warnings", session.createConsumer(session.createQueue("warnings")));
-                consumers.put("errors", session.createConsumer(session.createQueue("errors")));
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
-            connection.start();
-            connection.setExceptionListener(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onException(JMSException e) {
-        System.out.println("JMS Exception occured.  Shutting down client.");
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                for (Object o : consumers.entrySet()) {
-                    Map.Entry queueNameConsumer = (Map.Entry) o;
-                    MessageConsumer queueConsumer = (MessageConsumer) queueNameConsumer.getValue();
-                    String queueName = (String) queueNameConsumer.getKey();
-                    Message message = queueConsumer.receive(1000);
-                    if (message instanceof TextMessage) {
-                        TextMessage textMessage = (TextMessage) message;
-                        processMessage(queueName, textMessage.getText());
-                    }
-                }
-            } catch (Exception e) {
-                // TODO: handle exceptions
-            }
-        }
-    }
-
-    private void processMessage(String queueName, String text) {
-        logger.info(queueName + ": " + text);
-    }
-}
+//class MessageListener implements Runnable, ExceptionListener {
+//    private Map<String, MessageConsumer> consumers;
+//    private Logger logger = Logger.getLogger(MessageListener.class);
+//
+//
+//    public MessageListener(Connection connection) {
+//        try {
+//            System.out.println("create session");
+//            // Create the information (Topic or Queue)
+//            consumers = new HashMap<String, MessageConsumer>();
+//            Session session;
+//            session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+//            try {
+//                consumers.put("information", session.createConsumer(session.createQueue("information")));
+//                consumers.put("warnings", session.createConsumer(session.createQueue("warnings")));
+//                consumers.put("errors", session.createConsumer(session.createQueue("errors")));
+//            } catch (JMSException e) {
+//                e.printStackTrace();
+//            }
+//            connection.start();
+//            connection.setExceptionListener(this);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    public void onException(JMSException e) {
+//        System.out.println("JMS Exception occured.  Shutting down client.");
+//    }
+//
+//    @Override
+//    public void run() {
+//        while (true) {
+//            try {
+//                for (Object o : consumers.entrySet()) {
+//                    Map.Entry queueNameConsumer = (Map.Entry) o;
+//                    MessageConsumer queueConsumer = (MessageConsumer) queueNameConsumer.getValue();
+//                    String queueName = (String) queueNameConsumer.getKey();
+//                    Message message = queueConsumer.receive(1000);
+//                    if (message instanceof TextMessage) {
+//                        TextMessage textMessage = (TextMessage) message;
+//                        processMessage(queueName, textMessage.getText());
+//                    }
+//                }
+//            } catch (Exception e) {
+//                // TODO: handle exceptions
+//            }
+//        }
+//    }
+//
+//    private void processMessage(String queueName, String text) {
+//        logger.info(queueName + ": " + text);
+//    }
+//}
 

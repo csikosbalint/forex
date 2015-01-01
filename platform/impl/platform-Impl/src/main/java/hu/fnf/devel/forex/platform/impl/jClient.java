@@ -21,15 +21,18 @@
 package hu.fnf.devel.forex.platform.impl;
 
 
+import com.dukascopy.api.Instrument;
 import com.dukascopy.api.impl.connect.DCClientImpl;
 import com.dukascopy.api.system.IClient;
 import com.dukascopy.api.system.ISystemListener;
 import hu.fnf.devel.forex.platform.api.Platform;
 import hu.fnf.devel.forex.strategy.impl.MACDSample;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import javax.jms.*;
+import javax.jms.ConnectionFactory;
+import java.util.HashSet;
 
 /**
  * Created by johnnym on 08/12/14.
@@ -46,32 +49,39 @@ public class jClient implements Platform, BundleActivator {
 
     public void initMethod() throws IllegalAccessException, InstantiationException, ClassNotFoundException {
         System.out.println("init platform");
+        try {
+            setConnectionFactory(new ActiveMQConnectionFactory(ActiveMQConnectionFactory.DEFAULT_BROKER_URL));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         IClient iClient = new DCClientImpl();
         iClient.setSystemListener(new ISystemListener() {
             @Override
             public void onStart(long processId) {
+                sendMessage("information", "client is started");
 
             }
 
             @Override
             public void onStop(long processId) {
+                sendMessage("information", "client is stopped");
 
             }
 
             @Override
             public void onConnect() {
+                sendMessage("information", "client is connected");
 
             }
 
             @Override
             public void onDisconnect() {
+                sendMessage("information", "client is disconnected");
 
             }
         });
-        sendMessage("information", "client started");
         try {
-            iClient.connect("https://www.dukascopy.com/client/demo/jclient/jforex.jnlp", "DEMO2mPMgP",
-                    "mPMgP");
+            iClient.connect("https://eu-demo.dukascopy.com/fo/platform/jForex", "DEMO2mPMgP", "mPMgP");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -79,40 +89,52 @@ public class jClient implements Platform, BundleActivator {
         int i = 50; // wait max ten seconds
         while (i > 0 && !iClient.isConnected()) {
             try {
+                sendMessage("information", "client is connecting...");
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
+                sendMessage("error", "client connection is interrupted");
                 return;
             }
             i--;
         }
-        iClient.startStrategy(new MACDSample());
+        if (iClient.isConnected()) {
+            HashSet<Instrument> instrumentSet = new HashSet<Instrument>();
+            instrumentSet.add(Instrument.EURUSD);
+            instrumentSet.add(Instrument.USDJPY);
+            instrumentSet.add(Instrument.EURJPY);
+            instrumentSet.add(Instrument.NZDJPY);
+            iClient.setSubscribedInstruments(instrumentSet);
+            iClient.startStrategy(new MACDSample());
+        }
+
     }
 
     private void sendMessage(String queue, String msg) {
         try {
+            System.out.println(queue + ": " + msg);
             // Create a Connection
-            Connection connection = connectionFactory.createConnection();
-            connection.start();
-
-            // Create a Session
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-
-            // Create the destination (Topic or Queue)
-            Destination destination = session.createQueue(queue);
-
-            // Create a MessageProducer from the Session to the Topic or Queue
-            MessageProducer producer = session.createProducer(destination);
-            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-
-            // Create a messages
-            TextMessage message = session.createTextMessage(msg);
-
-            // Tell the producer to send the message
-            producer.send(message);
-
-            // Clean up
-            session.close();
-            connection.close();
+//            Connection connection = connectionFactory.createConnection("karaf","karaf");
+//            connection.start();
+//
+//            // Create a Session
+//            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+//
+//            // Create the destination (Topic or Queue)
+//            Destination destination = session.createQueue(queue);
+//
+//            // Create a MessageProducer from the Session to the Topic or Queue
+//            MessageProducer producer = session.createProducer(destination);
+//            producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+//
+//            // Create a messages
+//            TextMessage message = session.createTextMessage(msg);
+//
+//            // Tell the producer to send the message
+//            producer.send(message);
+//
+//            // Clean up
+//            session.close();
+//            connection.close();
         } catch (Exception e) {
             System.out.println("Caught: " + e);
             e.printStackTrace();

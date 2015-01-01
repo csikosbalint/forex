@@ -35,10 +35,58 @@
 
     <packaging>bundle</packaging>
 
+    <properties>
+        <ver.jena>2.10.1</ver.jena>
+        <ver.jena-sdb>1.3.6</ver.jena-sdb>
+        <ver.h2>1.3.173</ver.h2>
+    </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-sdb</artifactId>
+            <version>${ver.jena-sdb}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>xml-apis</groupId>
+                    <artifactId>xml-apis</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>xerces</groupId>
+                    <artifactId>xercesImpl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-xercesImpl</artifactId>
+            <version>3.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>apache-jena-libs</artifactId>
+            <type>pom</type>
+            <version>${ver.jena}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-codec</artifactId>
+                    <groupId>commons-codec</groupId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.jena</groupId>
+                    <artifactId>jena-tdb</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
         <dependency>
             <groupId>com.dukascopy.dds2</groupId>
             <artifactId>DDS2-jClient-JForex</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.jnlp</groupId>
+            <artifactId>jnlp-api</artifactId>
+            <version>7.0</version>
+            <scope>system</scope>
+            <systemPath>${java.home}/lib/javaws.jar</systemPath>
         </dependency>
     </dependencies>
 
@@ -49,10 +97,14 @@
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
                     <instructions>
+                        <Include-Resource>{maven-resources}, {maven-dependencies},${java.home}/lib/javaws.jar
+                        </Include-Resource>
+                        <Bundle-ClassPath>.,{maven-dependencies},javaws.jar</Bundle-ClassPath>
                         <Embed-Dependency>*;scope=compile|runtime;type=!pom;inline=true</Embed-Dependency>
                         <Embed-Transitive>true</Embed-Transitive>
-                        <Import-Package>!com.ibm.uvm.tools</Import-Package>
-                        <Export-Package>com.dukascopy.*</Export-Package>
+                        <Import-Package>com.dukascopy.*,javax.*,javax.transaction,org.w3c.dom,!com.ibm.uvm.tools
+                        </Import-Package>
+                        <Export-Package>*,javax.jnpl.*,com.dukascopy.*</Export-Package>
                     </instructions>
                 </configuration>
             </plugin>
